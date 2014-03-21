@@ -1,4 +1,4 @@
-(defproject historian "0.1.1-SNAPSHOT"
+(defproject historian "0.1.1"
   :description "Automatically save atoms and restore their previous states if needed."
   ;:url "http://example.com/FIXME"
 
