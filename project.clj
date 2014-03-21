@@ -1,6 +1,6 @@
 (defproject historian "0.1.0"
   :description "Automatically save atoms and restore their previous states if needed."
-  :url "http://example.com/FIXME"
+  ;:url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2138"]]
@@ -10,7 +10,7 @@
             [com.cemerick/clojurescript.test "0.3.0"]]
 
   :hooks [cljx.hooks
-          ;leiningen.cljsbuild
+          leiningen.cljsbuild
           ]
 
   :source-paths ["src"]
@@ -34,7 +34,7 @@
 
   :test-paths ["target/test"]
   :cljsbuild { 
-              :builds {:test
+              :builds {:main
                        {:id "historian"
                         :jar true
                         :source-paths ["target/classes"]
