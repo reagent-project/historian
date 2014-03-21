@@ -9,11 +9,9 @@
             [com.keminglabs/cljx "0.3.2"]
             [com.cemerick/clojurescript.test "0.3.0"]]
 
-  :hooks [cljx.hooks
-          leiningen.cljsbuild
-          ]
+  :hooks [cljx.hooks]
 
-  :source-paths ["src"]
+  :source-paths ["target/classes"]
 
   :cljx {:builds [{:source-paths ["src/cljx"]
                    :output-path "target/classes"
@@ -29,19 +27,7 @@
 
                   ;; {:source-paths ["test/cljx"]
                   ;;  :output-path "target/test"
-                  ;;  :rules :cljs} ;; Can't get cljs tests to work  :-(
+                  ;;  :rules :cljs}
                   ]}
 
-  :test-paths ["target/test"]
-  :cljsbuild { 
-              :builds {:main
-                       {:id "historian"
-                        :jar true
-                        :source-paths ["target/classes"]
-                        :compiler {:output-to "out/historian.js"
-                                   :output-dir "out"
-                                   :optimizations :advanced}}}
-              ;; :test-commands {"unit-tests" ["phantomjs" :runner
-              ;;                               "test/polyfill.js"
-              ;;                               "out/historian.js"]}
-              })
+  :test-paths ["target/test"])
