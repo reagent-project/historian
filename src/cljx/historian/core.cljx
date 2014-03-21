@@ -40,8 +40,8 @@
 
 (def ^:dynamic *watch-active* true)
 
-(defn- watch! [a]
-  (add-watch a ::historian-watch
+(defn- watch! [atm]
+  (add-watch atm ::historian-watch
              (fn [_ _ _ _]
                (when *watch-active*
                  (save-if-different! (take-snapshots))))))
@@ -50,17 +50,37 @@
   (remove-watch a ::historian-watch))
 
 (defn- can-undo?* [records]
-  (>= (count records) 2))  ;; must have at least the current state AND a past state
+  (>= (count records) 1))  ;; must have at least a past state
 
 
 ;;;; main API
 
+
+(defn force-record!
+  "Trigger a record to history. The current state of at least one atom
+  must be different from the previous one for the record to be
+  included into history."[]
+  (save-if-different! (take-snapshots)))
+
+
+(defn replace-library!
+  "The library atom (where all records are kept) will be replaced by
+  the new-atom. Useful if you've already done some modifications to
+  the new-atom (like added some watchers). Depending on where you use
+  this function, you might want to fire a `force-record!' just
+  after."[new-atom] 
+  #+cljs (set! historian.core/alexandria new-atom)
+  #+clj (intern 'historian.core 'alexandria new-atom))
+
 (defn record!
   "Add the atom to the overseer watch. When any of the atom under its
   watch is modified, it triggers a save of every atom to history (if
-  any of the atom is different form the last historic state." [a k]
-  (register-atom! a k)
-  (watch! a))
+  any of the atom is different form the last historic state. Return
+  the atom." [atm k]
+  (register-atom! atm k)
+  (watch! atm)
+  (force-record!)
+  atm)
 
 (defn stop-record! 
   "Remove the atom associated to this key from the overseer watch.
@@ -90,12 +110,6 @@
 
 (defn clear-history! []
   (reset! alexandria []))
-
-(defn force-record!
-  "Trigger a record to history. The current state of at least one atom
-  must be different from the previous one for the record to be
-  included into history."[]
-  (save-if-different! (take-snapshots)))
 
 #+clj
 (defmacro off-the-record
