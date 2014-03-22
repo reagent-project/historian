@@ -50,7 +50,10 @@
   (remove-watch a ::historian-watch))
 
 (defn- can-undo?* [records]
-  (>= (count records) 1))  ;; must have at least a past state
+  (>= (count records) 2)) ;; because the CURRENT state is the first in
+                          ;; the list of states, we need to have at
+                          ;; least 2 (the current, plus a previous
+                          ;; one) to be able to undo.
 
 
 ;;;; main API
@@ -105,7 +108,7 @@
     (when (can-undo?* alex)
       (->> alex
            pop 
-           (reset! alexandria) 
+           (reset! alexandria)
            peek 
            restore!))))
 
