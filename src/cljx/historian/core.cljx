@@ -38,12 +38,12 @@
   (when (different-from-last? snaps)
     (save-snapshots! snaps)))
 
-(def ^:dynamic *watch-active* true)
+(def ^:dynamic *record-active* true)
 
 (defn- watch! [atm]
   (add-watch atm ::historian-watch
              (fn [_ _ _ _]
-               (when *watch-active*
+               (when *record-active*
                  (save-if-different! (take-snapshots))))))
 
 (defn- remove-watch! [a]
@@ -56,18 +56,19 @@
 ;;;; main API
 
 
-(defn force-record!
+(defn trigger-record!
   "Trigger a record to history. The current state of at least one atom
   must be different from the previous one for the record to be
   included into history."[]
-  (save-if-different! (take-snapshots)))
+  (when *record-active*
+    (save-if-different! (take-snapshots))))
 
 
 (defn replace-library!
   "The library atom (where all records are kept) will be replaced by
   the new-atom. Useful if you've already done some modifications to
   the new-atom (like added some watchers). Depending on where you use
-  this function, you might want to fire a `force-record!' just
+  this function, you might want to fire a `trigger-record!' just
   after."[new-atom] 
   #+cljs (set! historian.core/alexandria new-atom)
   #+clj (intern 'historian.core 'alexandria new-atom))
@@ -79,7 +80,7 @@
   the atom." [atm k]
   (register-atom! atm k)
   (watch! atm)
-  (force-record!)
+  (trigger-record!)
   atm)
 
 (defn stop-record! 
@@ -95,7 +96,7 @@
 
 
 (defn restore! [snaps]
-  (binding [*watch-active* false]
+  (binding [*record-active* false]
     (doseq [s snaps]
       (reset! (get @overseer (:key s)) (:atom s)))))
 
@@ -115,7 +116,7 @@
 (defmacro off-the-record
   "Temporarily deactivate the watches write to history."
   [& content]
-  `(binding [*watch-active* false]
+  `(binding [*record-active* false]
      ~@content))
 
 #+clj
@@ -124,4 +125,4 @@
    is triggered at the end of the macro, assuming at least one of the
    atoms watched by the overseer has changed." [& content]
    `(do (off-the-record ~@content)
-        (force-record!)))
+        (trigger-record!)))
