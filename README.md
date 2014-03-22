@@ -11,7 +11,7 @@ Also supports clojure in case you would want to make similar applications, or si
 ## Usage
 Add the following dependency in your `project.clj`:
 ```clj
-[historian "0.1.2"]
+[historian "0.1.3"]
 ```
 
 And require historian in your namespace:
