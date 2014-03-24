@@ -1,6 +1,10 @@
 historian
 =========
 
+<img src="https://raw.githubusercontent.com/Frozenlock/historian/master/472px-Ancientlibraryalex.jpg"
+ alt="Historian logo" title="Library of Alexandria" align="right" />
+
+
 A drop-in atom-state-management (UNDOs!!) for your clojurescript projects.
 
 Also supports clojure in case you would want to make similar applications, or simply for testing.
