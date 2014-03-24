@@ -2,7 +2,7 @@ historian
 =========
 
 <img src="https://raw.githubusercontent.com/Frozenlock/historian/master/472px-Ancientlibraryalex.jpg"
- alt="Historian logo" title="Library of Alexandria" align="right" />
+ alt="Historian logo" title="Library of Alexandria"/>
 
 
 A drop-in atom-state-management (UNDOs!!) for your clojurescript projects.
