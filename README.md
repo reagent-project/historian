@@ -90,7 +90,7 @@ When loading an app with multiple atoms, you should use `clear-history!` and `tr
 (ns some-ns (:require [reagent.core :refer [atom]]
                       [historian.core :as hist]))
 
-(hist/replace-library! (atom [])) <----- the new atom must be a vector.
+(hist/replace-library! (atom [])) ; <----- the new atom must be a vector.
 ```
 
 ## Roadmap
