@@ -23,7 +23,7 @@
    })
 
 (defn- take-snapshots []
-  (map snapshot (keys @overseer)))
+  (mapv snapshot (keys @overseer)))
 
 (defn- different-from-last? [new]
   (let [remove-ts-fn #(dissoc % :timestamp)
