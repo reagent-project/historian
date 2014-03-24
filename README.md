@@ -1,4 +1,4 @@
-historian
+Historian
 =========
 
 <img src="https://raw.githubusercontent.com/Frozenlock/historian/master/472px-Ancientlibraryalex.jpg"
@@ -49,6 +49,39 @@ To keep an history of all changes, simply add your atom to historian:
 ;; tada!
 ```
 
+Of course, sometimes we want to do some things without anyone noticing...
+```clj
+;; our current state is "ABC"
+
+(hist/off-the-record
+ (reset! my-state "GHI"))  ;; <--- this change won't be added to the undo history
+
+(reset! my-state "ZZZ")
+
+(hist/restore-last!)
+
+@my-state
+=> "ABC"
+```
+
+If you have a bunch of operations initiated by a single user action:
+
+```clj
+
+(hist/with-single-record
+ (doseq [i (range 200)]
+  (reset! my-state i)))
+;; We've just done 200 operations on the atom, but only the last state is recorded.
+
+(hist/restore-last!)
+
+@my-state
+=> "ABC"
+```
+
+To check if any undo history is available, use `can-undo?`.
+
+When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
 
 ## Roadmap
 
