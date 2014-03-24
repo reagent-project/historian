@@ -83,6 +83,16 @@ To check if any undo history is available, use `can-undo?`.
 
 When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
 
+## Use with [Reagent] (https://github.com/holmsand/reagent)
+
+*Reagent* atoms remember where they've been derefed. In order for *Historian*'s atom to behave the same, simply replace it with one of your *Reagent* atom:
+```clj
+(ns some-ns (:require [reagent.core :refer [atom]]
+                      [historian.core :as hist]))
+
+(hist/replace-library! (atom [])) <----- the new atom must be a vector.
+```
+
 ## Roadmap
 
 I would like to have a tree-like history, allowing the user to choose any previous state.
