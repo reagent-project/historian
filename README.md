@@ -18,11 +18,8 @@ especially now that we support redos.
 ## Usage
 Add the following dependency in your `project.clj`:
 ```clj
-<<<<<<< HEAD
+
 [historian "1.0.0"]
-=======
-[historian "0.1.4"]
->>>>>>> 92e3087e31dc0d34ed4d5ba3027e2732d6843b97
 ```
 
 And require historian in your namespace:
