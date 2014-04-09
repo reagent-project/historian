@@ -49,6 +49,11 @@ To keep an history of all changes, simply add your atom to historian:
 @my-state
 => "ABC"
 
+(hist/redo!)
+
+@my-state
+=> "DEF"
+
 ;; tada!
 ```
 
