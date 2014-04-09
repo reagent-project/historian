@@ -1,7 +1,14 @@
-(ns historian.core)
+(ns ^{:doc "Manage states for your atoms. (Easy undo/redo)"
+      :author "Frozenlock"
+      :quote "The present is the least important time we live in. --Alan Kay"}
+  historian.core)
 
 (def alexandria 
   "The great library... store your stuff here."
+  (atom []))
+
+(def nostradamus 
+  "What will happen in the future..."
   (atom []))
 
 (def overseer
@@ -38,7 +45,17 @@
   (when (different-from-last? snaps)
     (save-snapshots! snaps)))
 
+(defn- save-prophecies! [snaps]
+  (swap! nostradamus conj snaps))
+
 (def ^:dynamic *record-active* true)
+
+(defn- restore!
+  "Restore all the atoms being watched to a previous/different state."
+  [snaps]
+  (binding [*record-active* false]
+    (doseq [s snaps]
+      (reset! (get @overseer (:key s)) (:atom s)))))
 
 (defn- watch! [atm]
   (add-watch atm ::historian-watch
@@ -55,6 +72,10 @@
                           ;; least 2 (the current, plus a previous
                           ;; one) to be able to undo.
 
+(defn- can-redo?* [records]
+  (>= (count records) 1)) ;; contrary to undo, a single state is
+                          ;; enough to redo.
+
 
 ;;;; main API
 
@@ -68,13 +89,27 @@
 
 
 (defn replace-library!
-  "The library atom (where all records are kept) will be replaced by
-  the new-atom. Useful if you've already done some modifications to
-  the new-atom (like added some watchers). Depending on where you use
-  this function, you might want to fire a `trigger-record!' just
-  after."[new-atom] 
-  #+cljs (set! historian.core/alexandria new-atom)
+  "The library atom (where all records are kept to enable 'undo') will
+  be replaced by the new-atom. Useful if you've already done some
+  modifications to the new-atom (like added some watchers). Depending
+  on where you use this function, you might want to fire a
+  `trigger-record!' just after.
+  
+  Usually, one would also want to use `replace-prophecy!' in order to
+  replace the 'redo' atom."
+  [new-atom] 
+  #+cljs (set! historian.core/alexandria new-atom) 
   #+clj (intern 'historian.core 'alexandria new-atom))
+
+(defn replace-prophecy!
+  "The prophecy atom (where all records are kept to enable 'redo')
+  will be replaced by the new-atom. Useful if you've already done some
+  modifications to the new-atom (like added some watchers).
+
+  Usually used with `replace-library'."
+  [new-atom]  
+  #+cljs (set! historian.core/nostradamus new-atom) 
+  #+clj (intern 'historian.core 'nostradamus new-atom))
 
 (defn record!
   "Add the atom to the overseer watch. When any of the atom under its
@@ -90,30 +125,39 @@
   "Remove the atom associated to this key from the overseer watch.
   This atom will no longer be watched, nor its state saved to
   history."[k]
-  (remove-watch (get @overseer k) k)
+  (remove-watch! (get @overseer k))
   (de-register-atom! k))
 
 (defn can-undo?
   "Do we have enough history to undo?"[]
   (can-undo?* @alexandria))
 
+(defn can-redo?
+  "Can we redo?"[]
+  (can-redo?* @nostradamus))
 
-(defn restore! [snaps]
-  (binding [*record-active* false]
-    (doseq [s snaps]
-      (reset! (get @overseer (:key s)) (:atom s)))))
-
-(defn restore-last! []
+(defn undo! []
   (let [alex @alexandria]
     (when (can-undo?* alex)
+      (save-prophecies! (peek alex)) ;; add current state to the list
+                                     ;; of 'redos'
       (->> alex
-           pop 
+           pop                       ;; discard the current state
            (reset! alexandria)
-           peek 
+           peek
            restore!))))
 
+(defn redo! []
+  (let [nos @nostradamus]
+    (when (can-redo?* nos)
+      (save-snapshots! (peek nos)) ;; add the state as 'current' in
+                                   ;; the undo atom.
+      (reset! nostradamus (pop nos)) ;; Remove the prophecy
+      (restore! (peek nos))))) ;; Set the prophecy as the current state.
+
 (defn clear-history! []
-  (reset! alexandria []))
+  (reset! alexandria [])
+  (reset! nostradamus []))
 
 #+clj
 (defmacro off-the-record
