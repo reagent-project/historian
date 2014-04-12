@@ -14,7 +14,12 @@ Also supports clojure in case you would want to make similar applications, or si
 `restore-last!` is now `undo!`. The command is much clearer this way,
 especially now that we support redos.
 
+## Table of contents
+[Usage](#usage)  
+[Shortcuts](#shortcuts)  
+[Reagent](#reagent)  
 
+<a name="usage"/>
 ## Usage
 Add the following dependency in your `project.clj`:
 ```clj
@@ -88,10 +93,18 @@ If you have a bunch of operations initiated by a single user action:
 => "ABC"
 ```
 
-To check if any undo history is available, use `can-undo?`.
+To check if any undo/redo history is available, use `can-undo?` and `can-redo?`.
 
 When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
 
+<a name="shortcuts"/>
+## Keyboard Shortcuts
+
+You can bind `ctrl-z` and `ctrl-y` to undo and redo by using
+`bind-keys` in the `historian.keys` namespace.
+
+
+<a name="reagent"/>
 ## Use with [Reagent] (https://github.com/holmsand/reagent)
 
 *Reagent* atoms remember where they've been derefed. In order for *Historian*'s atom to behave the same, simply replace it with one of your *Reagent* atom:
