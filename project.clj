@@ -11,7 +11,7 @@
 
   :hooks [cljx.hooks]
 
-  :source-paths ["target/classes"]
+  :source-paths ["target/classes" "src/cljs"]
 
   :cljx {:builds [{:source-paths ["src/cljx"]
                    :output-path "target/classes"
