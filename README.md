@@ -24,7 +24,7 @@ especially now that we support redos.
 Add the following dependency in your `project.clj`:
 ```clj
 
-[historian "1.0.1"]
+[historian "1.0.2"]
 ```
 
 And require historian in your namespace:

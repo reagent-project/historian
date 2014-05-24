@@ -68,14 +68,14 @@
   (remove-watch a ::historian-watch))
 
 (defn- can-undo?* [records]
-  (>= (count records) 2)) ;; because the CURRENT state is the first in
-                          ;; the list of states, we need to have at
-                          ;; least 2 (the current, plus a previous
-                          ;; one) to be able to undo.
+  (when (next records) true)) ;; because the CURRENT state is the
+                              ;; first in the list of states, we need
+                              ;; to have at least 2 (the current, plus
+                              ;; a previous one) to be able to undo.
 
 (defn- can-redo?* [records]
-  (>= (count records) 1)) ;; contrary to undo, a single state is
-                          ;; enough to redo.
+  (when (first records) true)) ;; contrary to undo, a single state is
+                               ;; enough to redo.
 
 
 ;;;; main API
