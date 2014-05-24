@@ -43,7 +43,8 @@
 
 (defn- save-if-different! [snaps]
   (when (different-from-last? snaps)
-    (save-snapshots! snaps)))
+    (save-snapshots! snaps)
+    (reset! nostradamus [])))
 
 (defn- save-prophecies! [snaps]
   (swap! nostradamus conj snaps))
