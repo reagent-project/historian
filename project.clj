@@ -15,8 +15,7 @@
 
   :profiles {:dev {:plugins [[com.keminglabs/cljx "0.4.0" :exclusions [org.clojure/clojure]]]}}
 
-  :plugins [[lein-cljsbuild "1.0.3"]
-            [com.keminglabs/cljx "0.4.0" :exclusions [org.clojure/clojure]]]
+  :plugins [[lein-cljsbuild "1.0.3"]]
 
   :hooks [cljx.hooks]
 
