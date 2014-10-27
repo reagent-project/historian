@@ -10,9 +10,6 @@ A drop-in atom-state-management (UNDOs!!) for your clojurescript projects.
 
 Also supports clojure in case you would want to make similar applications, or simply for testing.
 
-*Warning: Breaking change in the API for version 1.0.0.*
-`restore-last!` is now `undo!`. The command is much clearer this way,
-especially now that we support redos.
 
 ## Table of contents
 [Usage](#usage)  
