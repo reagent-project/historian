@@ -19,11 +19,9 @@ Also supports clojure in case you would want to make similar applications, or si
 <a name="usage"/>
 ## Usage
 Add the following dependency in your `project.clj`:
-```clj
 
 [![Clojars Project](http://clojars.org/historian/latest-version.svg)](http://clojars.org/historian)
 
-```
 
 And require historian in your namespace:
 ```clj
