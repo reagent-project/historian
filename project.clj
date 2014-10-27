@@ -1,4 +1,4 @@
-(defproject historian "1.0.3"
+(defproject historian "1.0.4"
   :description "Automatically save atoms and restore their previous states if needed."
   :url "https://github.com/Frozenlock/historian"
   :scm {:name "git"
@@ -9,11 +9,11 @@
             :distribution :repo
             :comments "same as Clojure"}
 
-  :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2371" :scope "provided"]]
+  :dependencies [[org.clojure/clojurescript "0.0-2371"]]
 
 
-  :profiles {:dev {:plugins [[com.keminglabs/cljx "0.4.0" :exclusions [org.clojure/clojure]]]}}
+  :profiles {:dev {:dependencies [[org.clojure/clojure "1.6.0"]]
+                   :plugins [[com.keminglabs/cljx "0.4.0" :exclusions [org.clojure/clojure]]]}}
 
   :plugins [[lein-cljsbuild "1.0.3"]]
 
