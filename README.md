@@ -21,7 +21,8 @@ Also supports clojure in case you would want to make similar applications, or si
 Add the following dependency in your `project.clj`:
 ```clj
 
-[historian "1.0.2"]
+[![Clojars Project](http://clojars.org/historian/latest-version.svg)](http://clojars.org/historian)
+
 ```
 
 And require historian in your namespace:
