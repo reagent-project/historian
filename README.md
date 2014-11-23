@@ -14,7 +14,7 @@ Also supports clojure in case you would want to make similar applications, or si
 ## Table of contents
 [Usage](#usage)  
 [Shortcuts](#shortcuts)  
-[Replacing Hitorian atoms](#atoms)  
+[Replacing Historian atoms](#atoms)  
 
 <a name="usage"/>
 ## Usage
