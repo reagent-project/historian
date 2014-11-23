@@ -14,7 +14,7 @@ Also supports clojure in case you would want to make similar applications, or si
 ## Table of contents
 [Usage](#usage)  
 [Shortcuts](#shortcuts)  
-[Reagent](#reagent)  
+[Replacing Hitorian atoms](#atoms)  
 
 <a name="usage"/>
 ## Usage
@@ -94,16 +94,19 @@ To check if any undo/redo history is available, use `can-undo?` and `can-redo?`.
 When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
 
 <a name="shortcuts"/>
-## Keyboard Shortcuts
+## Keyboard Shortcuts (cljs)
 
 You can bind `ctrl-z` and `ctrl-y` to undo and redo by using
 `bind-keys` in the `historian.keys` namespace.
 
 
-<a name="reagent"/>
-## Use with [Reagent] (https://github.com/holmsand/reagent)
+<a name="atoms"/>
+## Replacing Atoms
 
-*Reagent* atoms remember where they've been derefed. In order for *Historian*'s atom to behave the same, simply replace it with one of your *Reagent* atom:
+You might need to replace the atoms in which Historian stores its data.
+(Say, for example, to make them compatible with [Reagent] (https://github.com/holmsand/reagent).
+
+
 ```clj
 (ns some-ns (:require [reagent.core :refer [atom]]
                       [historian.core :as hist]))
