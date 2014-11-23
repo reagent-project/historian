@@ -104,7 +104,7 @@ You can bind `ctrl-z` and `ctrl-y` to undo and redo by using
 ## Replacing Atoms
 
 You might need to replace the atoms in which Historian stores its data.
-(Say, for example, to make them compatible with [Reagent] (https://github.com/holmsand/reagent).
+(Say, for example, to make them compatible with [Reagent] (https://github.com/holmsand/reagent)).
 
 
 ```clj
