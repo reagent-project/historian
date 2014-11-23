@@ -12,7 +12,7 @@
   :dependencies [[org.clojure/clojurescript "0.0-2371" :scope "provided"]]
 
 
-  :profiles {:dev {:plugins [[org.clojars.frozenlock/cljx "0.4.5"]]
+  :profiles {:dev {:plugins [[org.clojars.frozenlock/cljx "0.4.6"]]
                    :hooks [cljx.hooks]
                    :cljx {:builds [{:source-paths ["src/cljx"]
                                     :output-path "target/classes"
