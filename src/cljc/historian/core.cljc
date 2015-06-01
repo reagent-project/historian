@@ -25,8 +25,8 @@
   {:atom (deref (get @overseer k))
    :key k
    :timestamp 
-   #+cljs (goog.now) 
-   #+clj (System/currentTimeMillis)
+   #?(:cljs (goog.now)
+      :clj (System/currentTimeMillis))
    })
 
 (defn- take-snapshots []
@@ -99,8 +99,8 @@
   Usually, one would also want to use `replace-prophecy!' in order to
   replace the 'redo' atom."
   [new-atom] 
-  #+cljs (set! historian.core/alexandria new-atom) 
-  #+clj (intern 'historian.core 'alexandria new-atom))
+  #?(:cljs (set! historian.core/alexandria new-atom) 
+     :clj (intern 'historian.core 'alexandria new-atom)))
 
 (defn replace-prophecy!
   "The prophecy atom (where all records are kept to enable 'redo')
@@ -109,8 +109,8 @@
 
   Usually used with `replace-library'."
   [new-atom]  
-  #+cljs (set! historian.core/nostradamus new-atom) 
-  #+clj (intern 'historian.core 'nostradamus new-atom))
+  #?(:cljs (set! historian.core/nostradamus new-atom) 
+     :clj (intern 'historian.core 'nostradamus new-atom)))
 
 (defn record!
   "Add the atom to the overseer watch. When any of the atom under its
@@ -160,17 +160,17 @@
   (reset! alexandria [])
   (reset! nostradamus []))
 
-#+clj
+#?(:clj
 (defmacro off-the-record
   "Temporarily deactivate the watches write to history."
   [& content]
   `(binding [*record-active* false]
-     ~@content))
+     ~@content)))
 
-#+clj
+#?(:clj
 (defmacro with-single-record
   "Temporarily deactivate the watches write to history. A single write
    is triggered at the end of the macro, assuming at least one of the
    atoms watched by the overseer has changed." [& content]
    `(do (off-the-record ~@content)
-        (trigger-record!)))
+        (trigger-record!))))

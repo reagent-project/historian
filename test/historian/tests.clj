@@ -1,10 +1,6 @@
 (ns historian.tests
-  (:require #+clj [clojure.test :as t :refer (is deftest with-test run-tests testing)]
-            #+cljs [cemerick.cljs.test :as t]
-            [historian.core :as hist])
-  #+cljs (:require-macros [cemerick.cljs.test
-                           :refer (is deftest with-test run-tests testing test-var)]
-                          [historian.core :refer [with-single-record]]))
+  (:require [clojure.test :as t :refer (is deftest with-test run-tests testing)]
+            [historian.core :as hist]))
 
 (def test-atom (atom ""))
 
