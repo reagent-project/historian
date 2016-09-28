@@ -13,6 +13,7 @@ Also supports clojure in case you would want to make similar applications, or si
 
 ## Table of contents
 [Usage](#usage)  
+[Passive Atoms](#passive)
 [Shortcuts](#shortcuts)  
 [Replacing Historian atoms](#atoms)  
 
@@ -89,9 +90,27 @@ If you have a bunch of operations initiated by a single user action:
 => "ABC"
 ```
 
+You can also use the `with-single-before-and-after` macro to
+conditionally add a before AND after state when a non passive atom is
+modified. This is useful to snapshot the very last state of all
+passive atoms just before a normal atom is modified.
+
 To check if any undo/redo history is available, use `can-undo?` and `can-redo?`.
 
 When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
+
+<a name="passive"/>
+## Passive Atoms
+
+When using `record!` on an atom, you can provide the optional
+'passive?' argument. A passive atom will *not* trigger any new save if
+modified. It will only be recorded if any other watched atom is
+modified."
+
+```clj
+(hist/record! my-state :my-state :passive)
+```
+
 
 <a name="shortcuts"/>
 ## Keyboard Shortcuts (cljs)
@@ -117,5 +136,4 @@ You might need to replace the atoms in which Historian stores its data.
 ;; for redos:
 (hist/replace-prophecy! (atom [])) ; <----- the new atom must be a vector.
 ```
-
 
