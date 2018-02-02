@@ -194,22 +194,22 @@
   (reset! (get-library-atom) [])
   (reset! (get-prophecy-atom) []))
 
-#?(:clj
+
 (defmacro off-the-record
   "Temporarily deactivate the watches write to history."
   [& content]
   `(binding [*record-active* false]
-     ~@content)))
+     ~@content))
 
-#?(:clj
+
 (defmacro with-single-record
   "Temporarily deactivate the watches write to history. A single write
-   is triggered at the end of the macro, assuming at least one of the
-   atoms watched by the overseer has changed." [& content]
-   `(do (off-the-record ~@content)
-        (trigger-record!))))
+  is triggered at the end of the macro, assuming at least one of the
+  atoms watched by the overseer has changed." [& content]
+  `(do (off-the-record ~@content)
+       (trigger-record!)))
 
-(:clj
+
 (defmacro with-single-before-and-after
   "Deactivate the watches write to history and execute the body. If
   any non-passive atom is modified, replace the last history with a
@@ -220,4 +220,4 @@
      (let [after-snaps# (take-snapshots)]
        (when (different-from? after-snaps# before-snaps#)
          (overwrite-record! before-snaps#)
-         (trigger-record!))))))
+         (trigger-record!)))))
