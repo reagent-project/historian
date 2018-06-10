@@ -106,7 +106,7 @@ When loading an app with multiple atoms, you should use `clear-history!` and `tr
 ## Passive Atoms
 
 When using `record!` on an atom, you can provide the optional
-'passive?' argument. A passive atom will *not* trigger any new save if
+`passive?` argument. A passive atom will *not* trigger any new save if
 modified. It will only be recorded if any other watched atom is
 modified."
 
