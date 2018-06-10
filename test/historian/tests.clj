@@ -20,9 +20,9 @@
   (is (= "ABC" @test-atom))
   (hist/stop-record! :test-atom)
   ;; we shouldn't be watching this atom anymore
-  (let [nb (count @hist/alexandria)]
+  (let [nb (count (deref @hist/alexandria))]
     (reset! test-atom :new-value)
-    (is (= nb (count @hist/alexandria))))
+    (is (= nb (count (deref @hist/alexandria)))))
   (hist/clear-history!))
 
 (deftest with-single-record-test
