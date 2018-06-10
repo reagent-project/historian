@@ -1,7 +1,7 @@
 (ns ^{:doc "Manage states for your atoms. (Easy undo/redo)"
       :author "Frozenlock"
       :quote "The present is the least important time we live in. --Alan Kay"}
-  historian.core)
+    historian.core)
 
 (def alexandria 
   "The great library... store your stuff here."
@@ -85,13 +85,13 @@
 
 (defn- can-undo?* [records]
   (when (next records) true)) ;; because the CURRENT state is the
-                              ;; first in the list of states, we need
-                              ;; to have at least 2 (the current, plus
-                              ;; a previous one) to be able to undo.
+;; first in the list of states, we need
+;; to have at least 2 (the current, plus
+;; a previous one) to be able to undo.
 
 (defn- can-redo?* [records]
   (when (first records) true)) ;; contrary to undo, a single state is
-                               ;; enough to redo.
+;; enough to redo.
 
 
 ;;;; main API
@@ -171,35 +171,36 @@
   "Can we redo?"[]
   (can-redo?* @(get-prophecy-atom)))
 
-(defn undo! []
-  (let [alex @(get-library-atom)]
-    (when (can-undo?* alex)
-      (save-prophecies! (peek alex)) ;; add current state to the list
-                                     ;; of 'redos'
-      (->> alex
-           pop                       ;; discard the current state
-           (reset! (get-library-atom))
-           peek
-           restore!))))
-
-(defn redo! []
-  (let [nos @(get-prophecy-atom)]
-    (when (can-redo?* nos)
-      (save-snapshots! (peek nos)) ;; add the state as 'current' in
-                                   ;; the undo atom.
-      (reset! (get-prophecy-atom) (pop nos)) ;; Remove the prophecy
-      (restore! (peek nos))))) ;; Set the prophecy as the current state.
-
-(defn clear-history! []
-  (reset! (get-library-atom) [])
-  (reset! (get-prophecy-atom) []))
-
-
 (defmacro off-the-record
   "Temporarily deactivate the watches write to history."
   [& content]
   `(binding [*record-active* false]
      ~@content))
+
+(defn undo! []
+  (let [alex @(get-library-atom)]
+    (when (can-undo?* alex)
+      (off-the-record
+       (save-prophecies! (peek alex)) ;; add current state to the list
+       ;; of 'redos'
+       (->> alex
+            pop                       ;; discard the current state
+            (reset! (get-library-atom))
+            peek
+            restore!)))))
+
+(defn redo! []
+  (let [nos @(get-prophecy-atom)]
+    (when (can-redo?* nos)
+      (off-the-record
+       (save-snapshots! (peek nos)) ;; add the state as 'current' in
+       ;; the undo atom.
+       (reset! (get-prophecy-atom) (pop nos)) ;; Remove the prophecy
+       (restore! (peek nos)))))) ;; Set the prophecy as the current state.
+
+(defn clear-history! []
+  (reset! (get-library-atom) [])
+  (reset! (get-prophecy-atom) []))
 
 
 (defmacro with-single-record
