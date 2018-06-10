@@ -18,7 +18,9 @@ Also supports clojure in case you would want to make similar applications, or si
 [Replacing Historian atoms](#atoms)  
 
 <a name="usage"/>
+
 ## Usage
+
 Add the following dependency in your `project.clj`:
 
 [![Clojars Project](http://clojars.org/historian/latest-version.svg)](http://clojars.org/historian)
@@ -100,6 +102,7 @@ To check if any undo/redo history is available, use `can-undo?` and `can-redo?`.
 When loading an app with multiple atoms, you should use `clear-history!` and `trigger-record!` to start with a clean slate.
 
 <a name="passive"/>
+
 ## Passive Atoms
 
 When using `record!` on an atom, you can provide the optional
@@ -113,6 +116,7 @@ modified."
 
 
 <a name="shortcuts"/>
+
 ## Keyboard Shortcuts (cljs)
 
 You can bind `ctrl-z` and `ctrl-y` to undo and redo by using
@@ -120,6 +124,7 @@ You can bind `ctrl-z` and `ctrl-y` to undo and redo by using
 
 
 <a name="atoms"/>
+
 ## Replacing Atoms
 
 You might need to replace the atoms in which Historian stores its data.
