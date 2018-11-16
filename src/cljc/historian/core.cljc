@@ -38,10 +38,10 @@
      #?(:cljs (goog.now)
         :clj (System/currentTimeMillis))}))
 
-(defn- take-snapshots []
+(defn take-snapshots []
   (mapv snapshot (keys @overseer)))
 
-(defn- different-from?
+(defn different-from?
   "Check if any non-passive snapshot is different."
   [new old]
   (let [clean-maps #(when-not (:passive? %)

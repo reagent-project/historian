@@ -1,4 +1,4 @@
-(defproject historian "1.2.0"
+(defproject historian "1.2.1"
   :description "Automatically save atoms and restore their previous states if needed."
   :url "https://github.com/Frozenlock/historian"
   :scm {:name "git"
