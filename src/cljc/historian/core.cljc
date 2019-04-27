@@ -1,7 +1,8 @@
 (ns ^{:doc "Manage states for your atoms. (Easy undo/redo)"
       :author "Frozenlock"
       :quote "The present is the least important time we live in. --Alan Kay"}
-    historian.core)
+    historian.core
+  #?(:cljs (:require-macros [historian.core :refer (off-the-record)])))
 
 (def alexandria 
   "The great library... store your stuff here."
