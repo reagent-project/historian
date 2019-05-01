@@ -2,7 +2,7 @@
       :author "Frozenlock"
       :quote "The present is the least important time we live in. --Alan Kay"}
     historian.core
-  #?(:cljs (:require-macros [historian.core :refer (off-the-record)])))
+  #?(:cljs (:require-macros [historian.core :refer [off-the-record with-single-record with-single-before-and-after]])))
 
 (def alexandria 
   "The great library... store your stuff here."
